@@ -34,7 +34,8 @@ function verifyWebhookSignature(payload: string, signature: string, secret: stri
 // Helper: Get or Create Account
 // -----------------------------
 async function getOrCreateAccount(phoneNumber: string, accountName: string) {
-  let { data: account, error } = await supabase
+/* eslint-disable-next-line prefer-const */
+  let { data: account } = await supabase
     .from("whatsapp_accounts")
     .select("*")
     .eq("phone_number", phoneNumber)
@@ -62,7 +63,7 @@ async function getOrCreateAccount(phoneNumber: string, accountName: string) {
 // -----------------------------
 async function getOrCreateContact(accountId: number, jid: string, name?: string, isGroup = false) {
   // For contacts table, we use chat_id as the primary key and store the full JID
-  const { data: contact, error } = await supabase
+  const { data: contact } = await supabase
     .from("contacts")
     .select("*")
     .eq("account_id", accountId)
@@ -158,11 +159,13 @@ export async function POST(req: NextRequest) {
 
   console.log('verify webhook passed');
 
+/* eslint-disable-next-line prefer-const */
   let data: any;
   try {
     console.log('data parsing');
     data = JSON.parse(payloadRaw);
   } catch (err) {
+    console.error("Error parsing JSON:", err);
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
 
@@ -188,6 +191,7 @@ export async function POST(req: NextRequest) {
       );
 
       // Determine message type
+      /* eslint-disable-next-line prefer-const */
       let messageType = "text";
       if (data.image) messageType = "image";
       else if (data.video) messageType = "video";
