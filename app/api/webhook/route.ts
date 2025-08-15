@@ -95,6 +95,7 @@ async function getOrCreateContact(accountId: number, jid: string, name?: string,
 // -----------------------------
 // Helper: Handle Message Media
 // -----------------------------
+/* eslint-disable-next-line prefer-const */
 async function handleMessageMedia(messageId: number, data: any) {
   const mediaTypes = ['image', 'video', 'audio', 'document', 'sticker'];
   
@@ -115,6 +116,7 @@ async function handleMessageMedia(messageId: number, data: any) {
 // -----------------------------
 // Helper: Handle Message Location
 // -----------------------------
+/* eslint-disable-next-line prefer-const */
 async function handleMessageLocation(messageId: number, location: any) {
   await supabase.from("message_locations").insert({
     message_id: messageId,
@@ -129,6 +131,7 @@ async function handleMessageLocation(messageId: number, location: any) {
 // -----------------------------
 // Helper: Handle Message Contact
 // -----------------------------
+/* eslint-disable-next-line prefer-const */
 async function handleMessageContact(messageId: number, contact: any) {
   // Store contact info as JSON in the text field or create a separate contacts table
   const contactInfo = {
